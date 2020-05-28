@@ -1,0 +1,105 @@
+covid-stringency-index.csv
+政府响应严格指数，该指数是九个响应指标的综合度量。
+九项指标是：学校关闭;工作场所关闭;取消公共活动;限制公众集会;公共交通封闭;留在家里的要求;公共宣传运动;限制内部行动;和国际旅行控制。
+计算九个指标的平均分数，每个指标的值介于 0 和 100 之间。计算方法参照：https://www.bsg.ox.ac.uk/sites/default/files/Calculation%20and%20presentation%20of%20the%20Stringency%20Index.pdf
+该指数只是记录了政府政策的严格性。它并不衡量或暗示一国反应的适当性或有效性。分数越高并不一定意味着一个国家的反应比指数中处于较低水平的国家"更好"。
+
+
+
+school-closures-covid.csv
+学校关闭政策
+0 - No measures 没有措施
+1 - recommend closing 推荐关闭
+2 - Require closing (only some levels or categories,
+eg just high school, or just public schools) 要求部分关闭
+3 - Require closing all levels 全部关闭
+No data - blank 没有数据
+
+
+workplace-closures-covid.csv
+工作场所关闭政策
+0 - No measures  没有措施
+1 - recommend closing (or work from home)  推荐关闭
+2 - require closing (or work from home) for some
+sectors or categories of workers 要求部分关闭
+3 - require closing (or work from home) all but essential workplaces (eg grocery stores, doctors) 非必需工作场所全部关闭
+No data - blank  没有数据
+
+
+public-events-covid.csv
+取消公共活动
+0- No measures  没有措施
+1 - Recommend cancelling  推荐取消
+2 - Require cancelling  要求取消
+No data - blank  没有数据
+
+
+
+public-gathering-rules-covid.csv
+集会限制
+0 - No restrictions  没有措施
+1 - Restrictions on very large gatherings (the limit is above 1000 people) 限制大型集会
+2 - Restrictions on gatherings between 100-1000 people  限制100-1000人的集会
+3 - Restrictions on gatherings between 10-100 people  限制10-100人的集会
+4 - Restrictions on gatherings of less than 10 people 限制小于10人的集会
+No data - blank  没有数据
+
+
+
+public-transport-covid.csv
+关闭公共交通
+0 - No measures 
+1 - Recommend closing (or significantly reduce volume/route/means of transport available) 推荐关闭
+2 - Require closing (or prohibit most citizens from using it) 要求关闭
+
+
+
+public-campaigns-covid.csv
+Public information campaigns 公共宣传
+0 -No COVID-19 public information campaign  没有宣传
+1 - public officials urging caution about COVID-19 官方宣传注意COVID-19
+2 - coordinated public information campaign (e.g. across traditional and social media)大规模宣传
+No data - blank
+
+
+stay-at-home-covid.csv
+Stay at home 居家隔离
+0 - No measures
+1 - recommend not leaving house 建议不要离家
+2 - require not leaving house with exceptions for daily exercise, grocery shopping, and ‘essential’ trips 要求除了基本需求外不离开家
+3 - Require not leaving house with minimal exceptions (e.g. allowed to leave only once every few days, or only one person can leave at a time, etc.) 除最小外出要求外，要求不离家
+No data - blank
+
+
+internal-movement-covid.csv
+Restrictions on internal movement: 国内旅行限制
+0 - No measures
+1 - Recommend movement restriction 建议限制旅行
+2 - Restrict movement 限制旅行
+
+
+international-travel-covid.csv
+International travel controls: 国际旅行限制
+0 - No measures
+1 - Screening  筛查
+2 - Quarantine arrivals from high-risk regions 高风险地区人员检疫
+3 - Ban on high-risk regions 禁止高风险地区人员入境
+4 - Total border closure 完全关闭边境
+No data - blank
+
+
+covid-19-testing-policy.csv
+Testing policy 检测政策
+0 – No testing policy 不检测
+1 – Only those who both (a) have symptoms AND (b) meet specific criteria (eg key workers, admitted to hospital, came into contact with a known case, returned from overseas) 只测试同时出现症状和符合特定标准的人
+2 – testing of anyone showing COVID-19 symptoms 测试任何出现症状者
+3 – open public testing (eg “drive through” testing available to asymptomatic people) 开放公开测试
+No data
+
+
+covid-contact-tracing.csv
+Contract tracing 接触者跟踪
+0 - No contact tracing 无接触者跟踪
+1 - Limited contact tracing - not done for all cases 有限接触跟踪-未对所有病例
+2 - Comprehensive contact tracing - done for all cases 全面接触跟踪-对所有病例
+No data
