@@ -14,11 +14,12 @@ var dataSource = {'strick_idx': 'data/policy/covid-stringency-index.csv',
                 'contract_trace':'data/policy/covid-contact-tracing.csv'};
 
 var dataPieces = {'strick_idx': [
-                        {min: 80, max: 100, color: "#ff680f"}, 
-                        {min: 60, max: 79, color: '#ff8f56'},
-                        {min: 40, max: 59, color: '#ffb367'},
-                        {min: 20, max: 39, color: '#ffc38b'},
-                        {min: 0, max: 19, color: '#f6f578'},], 
+                        // {min: 80, max: 100, color: "#f06300"}, 
+                        // {min: 60, max: 79, color: '#ff781a'},
+                        // {min: 40, max: 59, color: '#ff8f56'},
+                        // {min: 20, max: 39, color: '#ffc38b'},
+                        // {min: 0, max: 19, color: '#ffdd54'},
+                    ], 
                 'school_close': [
                         {min: 0, max: 0, color: '#bbbbbb', label:'没有措施'}, 
                         {min: 1, max: 1, color: "#fceb8c", label:'建议关闭'},
@@ -26,9 +27,9 @@ var dataPieces = {'strick_idx': [
                         {min: 3, max: 3, color: "#ff715a", label:'要求全部关闭'},
                 ],
                 'campagins': [
-                        {min: 0, max: 0, color: "rgb(112,22,29)", label:'没有宣传'}, 
-                        {min: 1, max: 1, color: 'rgb(203,42,47)', label:'官方宣传提醒'},
-                        {min: 2, max: 2, color: 'rgb(229,90,78)', label:'大规模宣传'},
+                        {min: 0, max: 0, color: "#9de6e8", label:'没有宣传'}, 
+                        {min: 1, max: 1, color: '#73b9d7', label:'官方宣传提醒'},
+                        {min: 2, max: 2, color: '#909dea', label:'大规模宣传'},
                 ],
                 'workplace_close':[
                         {min: 0, max: 0, color: "#bbbbbb", label:'没有措施'}, 
@@ -37,21 +38,21 @@ var dataPieces = {'strick_idx': [
                         {min: 3, max: 3, color: '#ff715a', label:'除必须外全部关闭'},
                 ],
                 'public_events':[
-                        {min: 0, max: 0, color: "rgb(112,22,29)", label:'没有措施'}, 
-                        {min: 1, max: 1, color: 'rgb(203,42,47)', label:'推荐取消'},
-                        {min: 2, max: 2, color: 'rgb(229,90,78)', label:'要求取消'},
+                        {min: 0, max: 0, color: "#9de6e8", label:'没有措施'}, 
+                        {min: 1, max: 1, color: '#73b9d7', label:'推荐取消'},
+                        {min: 2, max: 2, color: '#909dea', label:'要求取消'},
                 ],
                 'gathering':[
-                        {min: 0, max: 0, color: "rgb(112,22,29)", label:'没有措施'}, 
-                        {min: 1, max: 1, color: 'rgb(203,42,47)', label:'限制大型集会'},
-                        {min: 2, max: 2, color: 'rgb(229,90,78)', label:'限制100-1000人集会'},
-                        {min: 3, max: 3, color: 'rgb(245,158,131)', label:'限制100-10人集会'},
-                        {min: 4, max: 4, color: 'rgb(253,235,207)', label:'限制小于10人的集会'}
+                        {min: 0, max: 0, color: "#bbbbbb", label:'没有措施'}, 
+                        {min: 1, max: 1, color: '#FFFFCC', label:'限制大型集会'},
+                        {min: 2, max: 2, color: '#CCFFCC', label:'限制100-1000人集会'},
+                        {min: 3, max: 3, color: '#99CCCC', label:'限制100-10人集会'},
+                        {min: 4, max: 4, color: '#5f99CC', label:'限制小于10人的集会'}
                 ],
                 'public_stransport':[
-                        {min: 0, max: 0, color: "rgb(112,22,29)", label:'没有措施'}, 
-                        {min: 1, max: 1, color: 'rgb(203,42,47)', label:'推荐关闭/减少线路'},
-                        {min: 2, max: 2, color: 'rgb(229,90,78)', label:'要求关闭'},
+                        {min: 0, max: 0, color: "#9de6e8", label:'没有措施'}, 
+                        {min: 1, max: 1, color: '#73b9d7', label:'推荐关闭/减少线路'},
+                        {min: 2, max: 2, color: '#909dea', label:'要求关闭'},
                 ],
                 'stay_at_home':[
                         {min: 0, max: 0, color: "#bbbbbb", label:'没有措施'}, 
@@ -60,16 +61,16 @@ var dataPieces = {'strick_idx': [
                         {min: 3, max: 3, color: '#20af8e', label:'要求/限制最少的外出'},
                 ],
                 'internal_move':[
-                        {min: 0, max: 0, color: "rgb(112,22,29)", label:'没有限制'}, 
-                        {min: 1, max: 1, color: 'rgb(203,42,47)', label:'建议限制旅行'},
-                        {min: 2, max: 2, color: 'rgb(229,90,78)', label:'要求限制旅行'},
+                        {min: 0, max: 0, color: "#CCFFCC", label:'没有限制'}, 
+                        {min: 1, max: 1, color: '#99dbd8', label:'建议限制旅行'},
+                        {min: 2, max: 2, color: '#21b0ae', label:'要求限制旅行'},
                 ],
                 'international_traval':[
-                        {min: 0, max: 0, color: "rgb(112,22,29)", label:'没有措施'}, 
-                        {min: 1, max: 1, color: 'rgb(203,42,47)', label:'人员筛查'},
-                        {min: 2, max: 2, color: 'rgb(229,90,78)', label:'高风险地区人员检疫'},
-                        {min: 3, max: 3, color: 'rgb(245,158,131)', label:'禁止高风险地区人员入境'},
-                        {min: 4, max: 4, color: 'rgb(253,235,207)', label:'完全关闭边境'}
+                        {min: 0, max: 0, color: "#bbbbbb", label:'没有措施'}, 
+                        {min: 1, max: 1, color: '#FFFFCC', label:'人员筛查'},
+                        {min: 2, max: 2, color: '#CCFFCC', label:'高风险地区人员检疫'},
+                        {min: 3, max: 3, color: '#99CCCC', label:'禁止高风险地区人员入境'},
+                        {min: 4, max: 4, color: '#5f99CC', label:'完全关闭边境'}
                 ],
                 'testing_policy':[
                         {min: 0, max: 0, color: "#bbbbbb", label:'不检测'}, 
@@ -78,9 +79,9 @@ var dataPieces = {'strick_idx': [
                         {min: 3, max: 3, color: '#20af8e', label:'开放公开测试'},
                 ],
                 'contract_trace':[
-                        {min: 0, max: 0, color: "rgb(112,22,29)", label:'不跟踪'}, 
-                        {min: 1, max: 1, color: 'rgb(203,42,47)', label:'有限接触跟踪'},
-                        {min: 2, max: 2, color: 'rgb(229,90,78)', label:'全面接触跟踪'},
+                        {min: 0, max: 0, color: "#f2ff97", label:'不跟踪'}, 
+                        {min: 1, max: 1, color: '#9ed79a', label:'有限接触跟踪'},
+                        {min: 2, max: 2, color: '#20af8e', label:'全面接触跟踪'},
                 ]};
 
 var compareList = [];
@@ -194,7 +195,7 @@ var template_scatter = {
     geoIndex: 0,
     itemStyle: {
         normal: {
-            color: '#1687a7',
+            color: '#7c3c21',
             opacity: 1,
         }
     },
@@ -302,8 +303,12 @@ function buildMap(totalData, time){
             top: '59%',
             // text: ['多','少'],           // 文本，默认为数值文本
             calculable: true,
+            max:100,
+            min:0,
+            splitNumber:5,
             inRange:{
-                colorAlpha:0.85
+                colorAlpha:0.9,
+                color: ['#ffed76', "#ff680f"]
             },
             textStyle:{
                 color: '#FFFFCD'
