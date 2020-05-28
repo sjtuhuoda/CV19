@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>ncov</title>
+    <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.4.1.min.js"></script>
+    <!--<script src="https://d3js.org/d3.v5.min.js"></script>-->
+    <script src="ncov.js"></script>
+    <script src="echarts.js"></script>
+
+    <style>
+        p{
+            color: rgb(255, 255, 255);
+            font-family: Arial, Helvetica, sans-serif;
+        }
+        .webs polygon {
+            fill: gray;
+            fill-opacity: 0.5;
+            stroke: black;
+            stroke-dasharray: 10 5;
+        }
+
+        .lines line {
+            fill: black;
+            fill-opacity: 0.5;
+            stroke: black;
+            stroke-dasharray: 10 5;
+        }
+
+        .areas polygon {
+            fill-opacity: 0.5;
+            stroke-width: 3;
+        }
+
+        .areas circle {
+            fill: white;
+            stroke-width: 3;
+        }
+
+        div {
+            margin: 0;
+            padding: 0;
+            border: 0;
+        }
+        form{
+            font-family: Arial, Helvetica, sans-serif;
+            color: #fff;
+            float: left;
+        }
+        #codelist table,tbody,tr,td{
+            margin: auto;
+            border: 10px none #333;
+            font-family: Arial, Helvetica, sans-serif;
+            color: #fff;
+            padding: 10px;
+        }
+    </style>
+</head>
+
+<body style="background-color: #333;">
+    <div style="min-width: 1400px;">
+        <div style="width: 990;">
+            <h1 style="text-align: center;color: #fff;font-family: sans-serif;">NCOV</h1>
+        </div>
+        <div style="clear: both;">
+            <div>
+            <div id="barstack" style="width: 1200px; height: 400px;float: left;"></div>
+            <div id="agepie" style="width: 600px; height: 400px;float: left;"></div>
+            <div id="areapath" style="width: 600px; height: 400px;float: left;"></div>
+            </div>
+            <div style="color: black;">
+                <p>China</p>
+                <p>国土面积</p>
+                <p>人口</p>
+            </div>
+            <div style="float: left;">
+                <!--<svg class="radar1" width="450" height="400" ></svg>-->
+                <!--<svg class="radar2" width="480" height="400" ></svg>-->
+                <div id="radar1" style="width: 450px;height: 400px;"></div>
+                <div id="radar2" style="width: 450px;height: 400px;"></div>
+            </div>
+        </div>
+    </div>
+
+
+</body>
+
+</html>
