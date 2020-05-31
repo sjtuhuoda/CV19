@@ -1,65 +1,27 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>hotel</title>
-<style>
-    
-    #map{
-        position: absolute;
-        top: 50px;
-        width: 100%;
-        height: 90%;
-        border-width: 2px;
-    }
-    
-    ul.guide {
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-    overflow: hidden;
-    background-color: #333;
-}
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>hotel</title>
+    <script type="text/javascript" src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.4.0.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-csv/1.0.3/jquery.csv.min.js"></script>
+    <script type="text/javascript" src="https://assets.pyecharts.org/assets/echarts.min.js"></script>
+    <script type="text/javascript" src="https://assets.pyecharts.org/assets/maps/world.js"></script>
 
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts/dist/echarts.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts-gl/dist/echarts-gl.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts-stat/dist/ecStat.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts/dist/extension/dataTool.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts/map/js/china.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts/map/js/world.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts/dist/extension/bmap.min.js"></script>
 
-
-li a {
-    display: block;
-    color: #F2E2D2;
-    text-align: center;
-    padding: 13px 40px;
-    text-decoration: none;
-}
-
-li a:hover {
-    background-color: #111;
-}
-
-li a.active {
-    background-color:#ca5116;
-    color: #F2E2D2;
-}
-
-label{
-    color: #F2E2D2;
-}
-
-#legend {
-    position: relative;
-    top: 20px;
-    left: 70px;
-    width: 90%;
-}
-
-</style>
-<script type="text/javascript" src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.4.0.min.js"></script>
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-csv/1.0.3/jquery.csv.min.js"></script>
-<script type="text/javascript" src="https://assets.pyecharts.org/assets/echarts.min.js"></script>
-<script type="text/javascript" src="https://assets.pyecharts.org/assets/maps/world.js"></script>
-<link href="http://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
-<link href="https://cdn.bootcdn.net/ajax/libs/pretty-checkbox/3.0.3/pretty-checkbox.min.css" rel="stylesheet">
+    <link href="http://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.bootcdn.net/ajax/libs/pretty-checkbox/3.0.3/pretty-checkbox.min.css" rel="stylesheet">
+    <link href="css/policyStyle.css" rel="stylesheet">
 
 </head>
+
 <body style="background-color:#333">
     <ul class="guide">
         <li style="float:left"><a href="COVID19.html">疫情分析</a></li>
@@ -118,9 +80,8 @@ label{
             <div class="state p-success-o"> <label>接触跟踪</label></div>
         </div>
     </div>
-    <div id="map">
-        
-    </div>
+
+    <div id="map"></div>
 
     <!-- div标签表示一个块，它是我们的图片容器。所以属性style里 宽度和高度是可以自定义的，1800px代表1800像素，块的宽度和高度于生成图片的尺寸相关，在下面的饼状图中则同理。-->
     <script type="text/javascript" src="js/build_policy_map.js"></script>
