@@ -289,9 +289,13 @@ function buildMap(totalData, time){
 }
 
 mapChart.on('click', function(params){
-    //console.log(params)
+    console.log(params.data.name)
     if (params.componentSubType == "map"){
-        
+        new_element=document.createElement("script");
+        new_element.setAttribute("type","text/javascript");
+        new_element.setAttribute("src","js/ncov.js");// 在这里引入了a.js
+        document.body.appendChild(new_element);
+		drawAll(params.data.name)
     }
     // var idx = compareList.indexOf(params.name);
     // if (idx < 0){
