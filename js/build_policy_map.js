@@ -12,7 +12,8 @@ var dataSource = {'strick_idx': 'data/policy/covid-stringency-index.csv',
                 'international_traval':'data/policy/international-travel-covid.csv',
                 'testing_policy':'data/policy/covid-19-testing-policy.csv',
                 'contract_trace':'data/policy/covid-contact-tracing.csv'};
-
+var monthMatch = {"Jan":'01', "Feb":'02', "Mar":'03', "Apr":'04', "May":'05', "Jun":'06', "Jul":'07', "Aug":'08', "Sep":'09', "Oct":'10', "Nov":'11', "Dec":'12'};
+var symbolList = ['pin', 'circle', 'rect', 'triangle', 'diamond','roundRect', 'arrow']
 var dataPieces = {'strick_idx': [
                         // {min: 80, max: 100, color: "#f06300"}, 
                         // {min: 60, max: 79, color: '#ff781a'},
@@ -89,29 +90,54 @@ var compareList = [];
 function readData(){
     $(document).ready(function(){
        // console.log(dataType, dataSource[dataType])
-        var totalData = [], time = [], timeIdxMap = {};
+        var totalData = [], time = [], timeIdxMap = {}, countryPolicy = [];
         $.get(dataSource[dataType],function(theData){
             //console.log(theData)
             var dataList = $.csv.toObjects(theData);
             
             Keys = Object.keys(dataList[0]);
             var country = Keys[0], date = Keys[2], valName = Keys[3]
-            var timeIdx = 0;
+            var timeIdx = 0, firstPolicy = {}, lastPolicy = {};
             dataList.forEach(function(item, idx){
-                if (!timeIdxMap.hasOwnProperty(item[date])){
-                    timeIdxMap[item[date]] = timeIdx;
+                var modifiedTime = modifyTimeFormat(item[date])
+                var countryName = correctCountryName(item[country]);
+                var policyGrade = item[valName]
+                if( policyGrade > 0){
+                    if (!firstPolicy.hasOwnProperty(countryName)){
+                        firstPolicy[countryName] = modifiedTime
+                        lastPolicy[countryName] = [[modifiedTime, countryName, policyGrade]]
+                    }
+                    if (dataType == "strick_idx")
+                        lastPolicy[countryName].push([modifiedTime, countryName, policyGrade])
+                    else if (policyGrade != lastPolicy[countryName].slice(-1)[0][2]){
+                        //console.log(dataType, policyGrade, lastPolicy[countryName].slice(-1)[0][2])
+                        lastPolicy[countryName].push([modifiedTime, countryName, policyGrade])
+                    }
+                }
+            
+                if (!timeIdxMap.hasOwnProperty(modifiedTime)){
+                    timeIdxMap[modifiedTime] = timeIdx;
                     timeIdx += 1;
-                    time.push(item[date]);
-                    var countryName = correctCountryName(item[country]);
-                    totalData.push({time:item[date], data:[{name:countryName, value: item[valName]}]});
+                    time.push(modifiedTime);
+                    totalData.push({time:modifiedTime, data:[{name:countryName, value: policyGrade}]});
                 }
                 else{
-                    var countryName = correctCountryName(item[country]);
-                    totalData[timeIdxMap[item[date]]].data.push({name: countryName, value: item[valName]});
+                    totalData[timeIdxMap[modifiedTime]].data.push({name: countryName, value:policyGrade});
                 }
             })
+            var countryOrder=Object.keys(firstPolicy).sort(function(a,b){
+                if (firstPolicy[a] > firstPolicy[b])
+                    return -1;
+                else if (firstPolicy[a] < firstPolicy[b])
+                    return 1;
+                return 0;
+            });
+            for (let key in lastPolicy){
+                countryPolicy.push.apply(countryPolicy, lastPolicy[key])
+            }
             //console.log(totalData.slice(0, 143), time.slice(0, 143))
-            buildMap(totalData.slice(0, 139), time.slice(0, 139));
+            //console.log(lastPolicy, countryPolicy);
+            buildMap(totalData.slice(0, 139), time.slice(0, 139), countryPolicy, countryOrder);
         })
     })
 }
@@ -147,6 +173,14 @@ function correctCountryName(name){
     else if (name == 'Western Sahara')
         return 'W. Sahara'
     return name;
+}
+
+function modifyTimeFormat(time){
+    var mouth = monthMatch[time.slice(0, 3)];
+    var day = time.slice(4, 6);
+    if (day[1] == ',')
+        day = '0' + day[0];
+    return "2020-" + mouth + '-' + day;
 }
 
 
@@ -219,19 +253,39 @@ var template_scatter = {
     }]
 }
 
+template_policy_scatter = {
+    name: 'policy time',
+    type: 'scatter',
+    symbol: function(data){
+        if (dataType == 'strick_idx')
+            return 'circle';
+        else
+            return symbolList[parseInt(data[2])];
+    },
+    symbolSize: function (data) {
+        if (dataType == 'strick_idx')
+            return 7;
+        else
+            return 12;
+    },
+    data:[]
+}
 
-function buildMap(totalData, time){
+
+function buildMap(totalData, time, countryPolicy, countryOrder){
     var timeRange = [];
     var seriesData = [];
-    //console.log(time)
+    //console.log(countryPolicy, countryOrder);
     for (var i = 0; i < time.length; i++){
-        timeRange.push(time[i].slice(0, 6));
+        timeRange.push(time[i].slice(5, 10));
 
         var mapData = $.extend(true,{},template_map);
+        var scatterData = $.extend(true,{},template_policy_scatter);
         mapData.name = dataName[dataType];
         mapData.data = totalData[i].data;
+        scatterData.data = countryPolicy;
         seriesData.push({
-            series: [mapData ,template_scatter]
+            series: [mapData, scatterData ,template_scatter,]
         })
     }
     //console.log(seriesData[seriesData.length-1])
@@ -246,6 +300,8 @@ function buildMap(totalData, time){
             loop: false,
             playInterval: 50,
             top: 'auto',
+            left: '5%',
+            right: '45%',
             currentIndex: timeRange.length-1,
             axisType: 'category',
             data: timeRange,
@@ -269,17 +325,19 @@ function buildMap(totalData, time){
             trigger: 'item',
             formatter: function(p){
                 //console.log(p)
-                if (p.componentType == 'series' && p.seriesIndex == 0 && typeof(p.data) != "undefined" && dataType!='strick_idx')
-                    return p.data.name + ' ' + dataName[dataType] + '<br/>' + dataPieces[dataType][p.data.value].label;
-                else if (p.componentType == 'series' && p.seriesIndex == 0 && typeof(p.data) != "undefined" && dataType=='strick_idx')
-                    return p.data.name + '<br/>' + dataName[dataType] + ' ' + p.data.value
-                else if (p.componentType == 'series' && p.seriesIndex == 0 && typeof(p.data) == "undefined")
-                    return p.name + '<br/>没有数据';
-                else if (p.componentType == 'series' && p.seriesIndex == 1)
-                    return p.data.name + '<br/>点击加入比较';
-                else if (p.componentType == 'timeline')
+                if (p.componentType == 'timeline')
                     return p.name;
-                else
+                else if (p.seriesIndex == 0 && typeof(p.data) != "undefined" && dataType!='strick_idx')
+                    return p.data.name + ' ' + dataName[dataType] + '<br/>' + dataPieces[dataType][p.data.value].label;
+                else if (p.seriesIndex == 0 && typeof(p.data) != "undefined" && dataType=='strick_idx')
+                    return p.data.name + '<br/>' + dataName[dataType] + ' ' + p.data.value
+                else if (p.seriesIndex == 0 && typeof(p.data) == "undefined")
+                    return p.name + '<br/>没有数据';
+                else if (p.seriesIndex == 1 && dataType=='strick_idx')
+                    return p.data[0] + ' ' + p.data[1] + '<br/>' + dataName[dataType] + ' ' + p.data[2];
+                else if (p.seriesIndex == 1 && dataType!='strick_idx')
+                    return p.data[0] + ' ' + p.data[1] + '<br/>' + dataPieces[dataType][p.data[2]].label;
+                else 
                     return ''
             }
         },
@@ -297,10 +355,10 @@ function buildMap(totalData, time){
         visualMap:{
             type : 'piecewise',
             showLabel: true,
-            seriesIndex: 0,
+            seriesIndex: [0,1],
             pieces: dataPieces[dataType],
-            left: '15%',
-            top: '59%',
+            left: '4%',
+            top: '65%',
             // text: ['多','少'],           // 文本，默认为数值文本
             calculable: true,
             max:100,
@@ -327,11 +385,57 @@ function buildMap(totalData, time){
         //         },
         //     }
         // },
+        yAxis: {
+            name: 'Country',
+            type: 'category',
+            splitLine: {
+                lineStyle: {
+                    type: 'dashed'
+                }
+            },
+            data: countryOrder,
+            axisLabel:{
+                color: '#FFFFCD',
+                fontSize:10,
+            }
+        },
+        xAxis: {
+            position: 'top',
+            name: 'Date',
+            type: 'time',
+            axisLabel:{
+                color: '#FFFFCD',
+                fontSize:10,
+            }
+        },
+        dataZoom: [
+            {
+                type: 'slider',
+                show: true,
+                yAxisIndex: [0],
+                right: '3%',
+                start: 100, //数据窗口范围的起始百分比
+                end: 93
+            },
+            {
+                type: 'inside',
+                yAxisIndex: [0],
+                start: 0,
+                end: 7
+            }
+        ],
+        grid: {
+            bottom: "60%",
+            left: '65%',
+            right: '7%'
+        },
         geo:[{
             roam:true,
             nameProperty: 'NAME',
             
-            zoom:1,
+            zoom:0.8,
+            left: '-6%',
+            top: "13%",        
             //selectedMode: 'single',
             map: 'world',
             itemStyle:{
