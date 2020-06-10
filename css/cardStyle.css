@@ -70,3 +70,6 @@ form{
     z-index: 1;
     border: 5px solid;
 }
+#cardtext table,tbody,tr,td{
+    padding: 5px;
+}
