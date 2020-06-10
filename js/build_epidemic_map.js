@@ -288,6 +288,16 @@ function buildMap(totalData, time){
     
 }
 
+function my_function() {
+    if (document.getElementById("card").style.display == "") {
+        document.getElementById("card").style.display="none";
+    }
+    else {
+        document.getElementById("card").style.display="";
+    }
+}
+
+
 mapChart.on('click', function(params){
     console.log(params.data.name)
     if (params.componentSubType == "map"){
@@ -295,7 +305,13 @@ mapChart.on('click', function(params){
         new_element.setAttribute("type","text/javascript");
         new_element.setAttribute("src","js/ncov.js");// 在这里引入了a.js
         document.body.appendChild(new_element);
-		drawAll(params.data.name)
+        this_country_name = params.data.name;
+        if(this_country_name == "United States") {
+            this_country_name = "US";
+        }
+
+        card_drawAll(this_country_name);
+        my_function();
     }
     // var idx = compareList.indexOf(params.name);
     // if (idx < 0){

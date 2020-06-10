@@ -40,4 +40,13 @@ label{
     top: 40px;
     left: 100px;
     width: 45%;
+    
+}
+
+#hist {
+    position: absolute;
+    top: 50%;
+    left: 60%;
+    width: 35%;
+    height: 40%;
 }

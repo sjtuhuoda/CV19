@@ -64,38 +64,43 @@
 
     <div id="map"></div>
 
+<!--    <div id="card", align="center" style="display: none;background-color: #333;">-->
+<!--        -->
+<!--            <div style="float: left;width: 70%;">-->
+<!--                <div id="barstack" style="width: 800px; height: 250px;float: left;"></div>-->
+<!--                <div id="agepie" style="width: 400px; height: 270px;float: left;"></div>-->
+<!--                <div id="areapath" style="width: 400px; height: 270px;float: left;"></div>-->
+<!--            </div>-->
+<!--            <div style="float: left;">-->
+<!--                <div id="cardtext" style="color: black;text-align: left;height: 150px;"></div>-->
+<!--                <div id="eventrich" style="width: 250px; height: 370px;"></div>-->
+<!--            </div>-->
+<!--        -->
+<!--    </div>-->
+
     <div id="card", align="center" style="display: none;background-color: #333;">
-        
-            <div style="float: left;width: 70%;">
-                <div id="barstack" style="width: 800px; height: 250px;float: left;"></div>
-                <div id="agepie" style="width: 400px; height: 220px;float: left;"></div>
-                <div id="areapath" style="width: 400px; height: 220px;float: left;"></div>
-            </div>
-            <div style="float: left;">
-                <div id="cardtext" style="color: black;text-align: left;height: 150px;"></div>
-                <div id="eventrich" style="width: 250px; height: 300px;"></div>
-            </div>
-        
+
+        <div style="float: left;width: 70%;">
+            <div id="barstack" style="width: 1000px; height: 320px;float: left;padding: 30px;"></div>
+            <div id="agepie" style="width: 450px; height: 280px;float: left;padding: 20px 0px 20px 20px;"></div>
+            <div id="areapath" style="width: 500px; height: 280px;float: left;padding: 20px 20px 20px 0px;"></div>
+        </div>
+        <div style="float: left; padding: 40px 0px 0px 0px;">
+            <div id="cardtext" style="color: black;text-align: left;height: 150px;"></div>
+            <div id="eventrich" style="width: 250px; height: 480px;"></div>
+        </div>
+
+        <div id="close" style="float: right;width: 5%;">
+            <button class="btn" id="closebutton" onclick="my_function()">×</button>
+        </div>
+
     </div>
 
-    <!--    temp code and will be deleted soon      -->
-    <div id="tmp">
-        <button class="btn" id="button" onclick="my_function()">display or not</button>
-    </div>
-
-    <script>
-        function my_function() {
-            if (document.getElementById("card").style.display == "") {
-                document.getElementById("card").style.display="none";
-            }
-            else {
-                document.getElementById("card").style.display="";
-            }
-
-        }
-
-    </script>
-    <!--    temp code and will be deleted soon      -->
+<!--    &lt;!&ndash;    temp code and will be deleted soon      &ndash;&gt;-->
+<!--    <div id="tmp">-->
+<!--        <button class="btn" id="button" onclick="my_function()">display or not</button>-->
+<!--    </div>-->
+<!--    &lt;!&ndash;    temp code and will be deleted soon      &ndash;&gt;-->
 
 
 </body>
