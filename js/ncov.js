@@ -153,6 +153,13 @@ function barstack(cure, cureperday, death, deathperday, prediction, year = 2020,
       }
     },
     legend: {
+      selected: {
+        '累计治愈': true,
+        '累计死亡': true,
+        '新增治愈': false,
+        '新增死亡': false,
+        'SEIR预测累计确诊': true
+      },
       data: (function () {
         if (prediction.length == 0) {
           return ['累计治愈', '累计死亡', '新增治愈', '新增死亡'];
@@ -255,6 +262,63 @@ function barstack(cure, cureperday, death, deathperday, prediction, year = 2020,
     ]
   };
   myBarStack.setOption(k_option_barstack);
+  myBarStack.on('legendselectchanged',function(param){
+    console.log(param);
+    if(param.name=='累计治愈' ){
+      if(param.selected['累计治愈']==true){
+        k_option_barstack.legend.selected['累计治愈'] = true;
+        k_option_barstack.legend.selected['新增治愈'] = false;
+        k_option_barstack.legend.selected['新增死亡'] = false;
+      }
+      else{
+        k_option_barstack.legend.selected['累计治愈'] = false;
+      }
+    }
+    if(param.name=='累计死亡'){ 
+      if(param.selected['累计死亡']==true){
+        k_option_barstack.legend.selected['累计死亡'] = true;
+        k_option_barstack.legend.selected['新增治愈'] = false;
+        k_option_barstack.legend.selected['新增死亡'] = false;
+      }
+      else{
+        k_option_barstack.legend.selected['累计死亡'] = false;
+      }
+    }
+    if(param.name=='新增治愈'){
+      if(param.selected['新增治愈']==true){
+        k_option_barstack.legend.selected['累计治愈'] = false;
+        k_option_barstack.legend.selected['累计死亡'] = false;
+        k_option_barstack.legend.selected['SEIR预测累计确诊'] = false;
+        k_option_barstack.legend.selected['新增治愈'] = true;
+      }
+      else{
+        k_option_barstack.legend.selected['新增治愈'] = false;
+      }
+    }
+    if(param.name=='新增死亡'){
+      if(param.selected['新增死亡']==true){
+        k_option_barstack.legend.selected['累计治愈'] = false;
+        k_option_barstack.legend.selected['累计死亡'] = false;
+        k_option_barstack.legend.selected['SEIR预测累计确诊'] = false;
+        k_option_barstack.legend.selected['新增死亡'] = true;
+      }
+      else{
+        k_option_barstack.legend.selected['新增死亡'] = false;
+      }
+    }
+    if(param.name=='SEIR预测累计确诊'){
+      if(param.selected['SEIR预测累计确诊']==true){
+        k_option_barstack.legend.selected['新增治愈'] = false;
+        k_option_barstack.legend.selected['新增死亡'] = false;
+        k_option_barstack.legend.selected['SEIR预测累计确诊']=true;
+      }
+      else{
+        k_option_barstack.legend.selected['SEIR预测累计确诊'] = false;
+      }
+    }
+    this.setOption(k_option_barstack);
+
+  })
 }
 /** 3 lists should be equal in length. */
 function agepie(agelist, countryage, illage) {
