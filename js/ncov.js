@@ -1,9 +1,4 @@
 var k_color = ['#bcd3bb', '#e88f70', '#edc1a5', '#9dc5c8', '#e1e8c8', '#7b7c68', '#e5b5b5', '#f0b489', '#928ea8', '#bda29a'];
-var k_color_ = ['#bcd3bb', '#e88f70', '#edc1a5', '#9dc5c8', '#e1e8c8','#bcd3bb', '#e88f70', '#edc1a5', '#9dc5c8', '#e1e8c8', '#7b7c68', '#e5b5b5', '#f0b489', '#928ea8', '#bda29a'];
-var k_illdis=['Slovenia','Austria','Canada','Czechia','Germany','Hungary','Italy','Singapore','covid_age_distribution']
-var k_units=['',' k',' km²',' per km²','%']
-
-k_areapath=[]
 
 k_death_name=[];
 k_death=[];
@@ -11,17 +6,10 @@ k_deathperday=[];
 k_cure_name=[];
 k_cure=[];
 k_cureperday=[];
-k_pre=[];
-
 k_agediv=[];
 k_agedis=[];
-k_ill_countryname=[];
-k_ill_divdis=[];
-
 k_text_key=[];
 k_text_value=[];
-
-k_event=[];
 
 function getColor(idx) {
   var palette = [
@@ -33,7 +21,7 @@ function getColor(idx) {
   return palette[idx % palette.length];
 }
 /** Data should be a list. Indices of month and day start from 0. Vol is the number of days.*/
-function areapath(data, year = 2020, month = 0, day = 0, vol = 150) {
+function areapath(data, year = 2020, month = 0, day = 21, vol = 125) {
 
   myAreaPath = echarts.init(document.getElementById('areapath'));
   myAreaPath.clear();
@@ -58,13 +46,12 @@ function areapath(data, year = 2020, month = 0, day = 0, vol = 150) {
     },
     title: {
       left: 'center',
-      text: '政策松紧程度',
+      text: '经济运行情况',
       textStyle: {
         color: '#fff'
       }
 
     },
-    
     
     xAxis: {
       type: 'category',
@@ -105,15 +92,13 @@ function areapath(data, year = 2020, month = 0, day = 0, vol = 150) {
     }],
     series: [
       {
-        name: '松紧程度得分',
+        name: 'GDP or something else',
         type: 'line',
         smooth: true,
         symbol: 'none',
-        
         sampling: 'average',
         itemStyle: {
           color: 'rgb(255, 70, 131)'
-          
         },
         areaStyle: {
           color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
@@ -131,7 +116,7 @@ function areapath(data, year = 2020, month = 0, day = 0, vol = 150) {
   myAreaPath.setOption(k_option_areapath);
 }
 /** Death, cure and prediction should be lists. Indices of month and day start from 0. Vol is the number of days.*/
-function barstack(cure, cureperday, death, deathperday, prediction, year = 2020, month = 0, day = 21, vol = 125) {
+function barstack(cure, cureperday, death, deathperday, prediction = [], year = 2020, month = 0, day = 21, vol = 125) {
   myBarStack = echarts.init(document.getElementById('barstack'));
   myBarStack.clear();
 
@@ -158,7 +143,7 @@ function barstack(cure, cureperday, death, deathperday, prediction, year = 2020,
           return ['累计治愈', '累计死亡', '新增治愈', '新增死亡'];
         }
         else {
-          return ['累计治愈', '累计死亡', '新增治愈', '新增死亡', 'SEIR预测累计确诊']
+          return ['累计治愈', '累计死亡', '新增治愈', '新增死亡', '预测模型']
         }
       })(),
       textStyle: {
@@ -248,7 +233,7 @@ function barstack(cure, cureperday, death, deathperday, prediction, year = 2020,
         data: deathperday
       },
       {
-        name: 'SEIR预测累计确诊',
+        name: '预测模型',
         type: 'line',
         data: prediction
       }
@@ -259,17 +244,15 @@ function barstack(cure, cureperday, death, deathperday, prediction, year = 2020,
 /** 3 lists should be equal in length. */
 function agepie(agelist, countryage, illage) {
   //var agelist=['0~20','20~35','35~50','50~60','60以上']
-  console.log(agelist)
   myAgePie = echarts.init(document.getElementById('agepie'));
   myAgePie.clear();
   k_option_agepie = {
-    color: k_color_,
+    color: k_color,
     tooltip: {
       trigger: 'item',
-      formatter: '{a} <br/>{b}: {d}%'
+      formatter: '{a} <br/>{b}: {c} ({d}%)'
     },
     legend: {
-      type: 'scroll',
       orient: 'vertical',
       left: 10,
       data: agelist,
@@ -282,7 +265,6 @@ function agepie(agelist, countryage, illage) {
         name: '国家/地区年龄分布',
         hoverAnimation: true,
         type: 'pie',
-        left:'30%',
         radius: ['50%', '70%'],
         avoidLabelOverlap: false,
         label: {
@@ -312,7 +294,6 @@ function agepie(agelist, countryage, illage) {
         name: '感染者年龄分布',
         hoverAnimation: true,
         type: 'pie',
-        left:'30%',
         radius: ['30%', '50%'],
         avoidLabelOverlap: false,
         label: {
@@ -332,7 +313,7 @@ function agepie(agelist, countryage, illage) {
         data: (function () {
           var res = [];
           for (var i = 0; i < agelist.length; ++i) {
-            res.push({ value: illage[i], name: agelist[i+5] })
+            res.push({ value: illage[i], name: agelist[i] })
           }
           return res;
         })()
@@ -343,19 +324,16 @@ function agepie(agelist, countryage, illage) {
 }
 /** The text in card */
 function printtext(keys, content) {
-  var divinner = '<table><tbody>';
+  var divinner = '';
   for (var i = 0; i < keys.length; i++) {
-    divinner += '<tr><td>' + keys[i] + "</td><td>" + content[i] + k_units[i] + '</td></tr>';
+    divinner += '<p>' + keys[i] + "\t\t" + content[i] + '</p>';
   }
-  divinner+='</tbody></table>';
   document.getElementById('cardtext').innerHTML = divinner;
 }
 /** form the event timeline. UNCOMPLETED*/
-function eventrich(da, ev, year = 2020, month = 0, day = 0, vol = 150) {
+function eventrich(d, e, year = 2019, month = 11, day = 0, vol = 150) {
   myEventRich = echarts.init(document.getElementById('eventrich'));
   myEventRich.clear();
-  var d=JSON.parse(JSON.stringify(da));
-  var e=JSON.parse(JSON.stringify(ev));
   var base = +new Date(year, month, day);
   var oneDay = 24 * 3600 * 1000;
   var date = [];
@@ -365,10 +343,10 @@ function eventrich(da, ev, year = 2020, month = 0, day = 0, vol = 150) {
   }
 
   for (var i = 0; i < d.length; ++i) {
-    d[i] = d[i].split('/');
+    d[i] = d[i].split('-');
     d[i] = new Date(parseInt(d[i][0]), parseInt(d[i][1]) - 1, parseInt(d[i][2]) - 1);
   }
-  //console.log(d);
+  console.log(d);
   k_option_eventrich = {
     xAxis: {
       type: 'category',
@@ -378,8 +356,6 @@ function eventrich(da, ev, year = 2020, month = 0, day = 0, vol = 150) {
     yAxis: {
       inverse: true,
       type: 'time',
-      
-      
       data: d,
       splitLine:{
         show:false
@@ -393,16 +369,12 @@ function eventrich(da, ev, year = 2020, month = 0, day = 0, vol = 150) {
         }
         return li;
       })(),
-      type: 'line',
-      symbolSize:10,
-      lineStyle:{
-        width:4
-      }
+      type: 'line'
       
     }],
     tooltip:{
       formatter:function(param){
-        //console.log(param);
+        console.log(param);
         return param.data[1].toDateString()+'<br/>'+ param.data[2];
       },
       extraCssText:'width:250px;white-space:normal;',
@@ -411,55 +383,44 @@ function eventrich(da, ev, year = 2020, month = 0, day = 0, vol = 150) {
   }
   myEventRich.setOption(k_option_eventrich);
 }
+
+
 function card_drawAll(cname) {
   //console.log(k_agedis);
   var card_index=k_death_name.indexOf(cname);
 
 
   // for areapath
-  /*
   var areapathdata = [Math.random() * 300]
   for (var i = 1; i < 150; ++i) {
     areapathdata.push(Math.round((Math.random() - 0.5) * 20 + areapathdata[i - 1]));
   }
-  */
-  var areapathdata=k_areapath[card_index];
-  // for barstack
 
-  /*
-  var death = [10];
-  var cure = [5];
-  var deathperday = [0];
-  var cureperday = [0];
-  var prediction = [15];
-  for (var i = 1; i < 150; i++) {
-    deathperday.push(Math.round(Math.random() * 50));
-    death.push(deathperday[i] + death[i - 1]);
-    cureperday.push(Math.round(Math.random() * 100));
-    cure.push(cureperday[i] + cure[i - 1]);
-    prediction.push(Math.round(Math.random() * 200) + prediction[i - 1]);
-  }
-  */
+  // for barstack
+  //var death = [10];
+  //var cure = [5];
+  //var deathperday = [0];
+  //var cureperday = [0];
   var death=k_death[card_index];
   var cure=k_cure[card_index];
   var deathperday=k_deathperday[card_index];
   var cureperday=k_cureperday[card_index];
-  var prediction=k_pre[card_index];
-  
+  var prediction = [15];
+  for (var i = 1; i < 150; i++) {
+    //deathperday.push(Math.round(Math.random() * 50));
+    //death.push(deathperday[i] + death[i - 1]);
+    //cureperday.push(Math.round(Math.random() * 100));
+    //cure.push(cureperday[i] + cure[i - 1]);
+    prediction.push(Math.round(Math.random() * 200) + prediction[i - 1]);
+  }
 
   // for agepie
   //var agelist = ['0~20', '20~35', '35~50', '50~60', '60以上'];
   //var countryage = [656, 359, 348, 523, 523];
   var agelist=k_agediv;
   var countryage=k_agedis[card_index];
-  //console.log(countryage);
-  var illage = [, , , , ];
-
-  if(k_ill_countryname.indexOf(cname)!=-1){
-    var cind=k_ill_countryname.indexOf(cname);
-    agelist=agelist.concat(k_ill_divdis[cind][0]);
-    illage=k_ill_divdis[cind][1];
-  }
+  console.log(countryage);
+  var illage = [535, 55, 269, 356, 71];
 
   // for text
   //var keys = ['国家', '面积', '人口', 'GDP'];
@@ -468,14 +429,10 @@ function card_drawAll(cname) {
   var content=k_text_value[card_index];
 
   // for eventrich 
-  /*
   var eventdate = ['2019-12-4', '2019-12-25', '2020-2-16'];
   var event = ['All work and no play makes Jack a dull boy.All work and no play makes Jack a dull boy.',
     'All work and no play makes Jack a dull boy.All work and no play makes Jack a dull boy.All work and no play makes Jack a dull boy.All work and no play makes Jack a dull boy.',
     'All work and no play makes Jack a dull boy.All work and no play makes Jack a dull boy.All work and no play makes Jack a dull boy.All work and no play makes Jack a dull boy.'];
-  */
-  var eventdate=k_event[card_index][0];
-  var event=k_event[card_index][1];
 
   areapath(areapathdata);
   barstack(cure, cureperday, death, deathperday, prediction);
@@ -485,9 +442,7 @@ function card_drawAll(cname) {
 }
 function readcsvcard(){
   // for areapath
-  d3.csv('./data/epidemic/time_series_stringency.csv',function(data){
-    k_areapath.push(Object.values(data).slice(1))
-  }) 
+  //d3.csv('./data/epidemic/time_series_covid_19_deaths.csv',function(data){console.log(data)}) 
 
   // for barstack
   d3.csv('./data/epidemic/time_series_covid_19_deaths.csv',function(data){
@@ -504,9 +459,7 @@ function readcsvcard(){
   d3.csv('./data/epidemic/time_series_covid_19_recovered_everyday.csv',function(data){
     k_cureperday.push([0].concat(Object.values(data).slice(3)));
   })
-  d3.csv('./data/epidemic/SEIR_prediction.csv',function(data){
-    k_pre.push(Object.values(data).slice(1));
-  })
+  //d3.csv('./data/epidemic/time_series_covid_19_deaths.csv',function(data){console.log(data)})
 
   // for agepie
   k_agediv=['0~4','5~14','15~24','25~64','65+']
@@ -514,19 +467,7 @@ function readcsvcard(){
     //console.log(Object.values(data).slice(1));
     k_agedis.push(Object.values(data).slice(1));
   })
-  for(var i=0;i<9;++i){
-    d3.csv('./data/epidemic/covid_age_distribution/'+k_illdis[i]+'.csv',function(data){
-      var ori=Object.values(data);
-      var oriind=Object.keys(data);
-      if(ori[0]=='')return;
-      k_ill_countryname.push(ori[0]);
-      //console.log(ori[0]);
-      ori=ori.slice(1,ori.length);
-      oriind=oriind.slice(1,oriind.length-1);
-      k_ill_divdis.push([oriind,ori]);
-    })
-  }
-  
+  //d3.csv('./data/epidemic/time_series_covid_19_deaths.csv',function(data){console.log(data)})
 
   // for text
   k_text_key=['Country/Region','Population','Area','Density','GrowthRate']
@@ -535,21 +476,8 @@ function readcsvcard(){
   })
 
   // for eventrich
-  d3.csv('./data/epidemic/time_series_event.csv',function(data){
-    var dateofthiscountry=[];
-    var eventofthiscountry=[];
-    var ori=Object.values(data).slice(1);
-    var oriind=Object.keys(data).slice(1);
-    for(var i=0;i<ori.length;++i){
-      if(ori[i]=='')continue;
-      else{
-        dateofthiscountry.push(oriind[i]);
-        eventofthiscountry.push(ori[i]);
-      }
-    }
-    //console.log([dateofthiscountry,eventofthiscountry])
-    k_event.push([dateofthiscountry,eventofthiscountry]);
-  })
+  //d3.csv('./data/epidemic/time_series_covid_19_deaths.csv',function(data){console.log(data)})
+  //callback('China');
 }
 
 function k_begin(){
