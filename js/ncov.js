@@ -165,17 +165,17 @@ function barstack(cure, cureperday, death, deathperday, confirm, prediction, yea
       selected: {
         '累计治愈': true,
         '累计死亡': true,
-        '累计确诊': true,
+        '现存确诊': true,
         '新增治愈': false,
         '新增死亡': false,
         'SEIR预测累计确诊': true
       },
       data: (function () {
         if (prediction.length == 0) {
-          return ['累计治愈', '累计死亡','累计确诊', '新增治愈', '新增死亡'];
+          return ['累计治愈', '累计死亡','现存确诊', '新增治愈', '新增死亡'];
         }
         else {
-          return ['累计治愈', '累计死亡','累计确诊', '新增治愈', '新增死亡', 'SEIR预测累计确诊']
+          return ['累计治愈', '累计死亡','现存确诊', '新增治愈', '新增死亡', 'SEIR预测累计确诊']
         }
       })(),
       textStyle: {
@@ -251,7 +251,7 @@ function barstack(cure, cureperday, death, deathperday, confirm, prediction, yea
         data: death
       },
       {
-        name: '累计确诊',
+        name: '现存确诊',
         type: 'bar',
         stack: '累计人数',
         data: confirm
@@ -300,21 +300,21 @@ function barstack(cure, cureperday, death, deathperday, confirm, prediction, yea
         k_option_barstack.legend.selected['累计死亡'] = false;
       }
     }
-    if(param.name=='累计确诊'){ 
-      if(param.selected['累计确诊']==true){
-        k_option_barstack.legend.selected['累计确诊'] = true;
+    if(param.name=='现存确诊'){ 
+      if(param.selected['现存确诊']==true){
+        k_option_barstack.legend.selected['现存确诊'] = true;
         k_option_barstack.legend.selected['新增治愈'] = false;
         k_option_barstack.legend.selected['新增死亡'] = false;
       }
       else{
-        k_option_barstack.legend.selected['累计确诊'] = false;
+        k_option_barstack.legend.selected['现存确诊'] = false;
       }
     }
     if(param.name=='新增治愈'){
       if(param.selected['新增治愈']==true){
         k_option_barstack.legend.selected['累计治愈'] = false;
         k_option_barstack.legend.selected['累计死亡'] = false;
-        k_option_barstack.legend.selected['累计确诊'] = false;
+        k_option_barstack.legend.selected['现存确诊'] = false;
         k_option_barstack.legend.selected['SEIR预测累计确诊'] = false;
         k_option_barstack.legend.selected['新增治愈'] = true;
       }
@@ -326,7 +326,7 @@ function barstack(cure, cureperday, death, deathperday, confirm, prediction, yea
       if(param.selected['新增死亡']==true){
         k_option_barstack.legend.selected['累计治愈'] = false;
         k_option_barstack.legend.selected['累计死亡'] = false;
-        k_option_barstack.legend.selected['累计确诊'] = false;
+        k_option_barstack.legend.selected['现存确诊'] = false;
         k_option_barstack.legend.selected['SEIR预测累计确诊'] = false;
         k_option_barstack.legend.selected['新增死亡'] = true;
       }
