@@ -1,4 +1,5 @@
 var k_color = ['#bcd3bb', '#e88f70', '#edc1a5', '#9dc5c8', '#e1e8c8', '#7b7c68', '#e5b5b5', '#f0b489', '#928ea8', '#bda29a'];
+var k_color__ = ['#edc1a5','#bcd3bb', '#e88f70',  '#9dc5c8', '#e1e8c8', '#7b7c68', '#e5b5b5', '#f0b489', '#928ea8', '#bda29a'];
 var k_color_ = ['#bcd3bb', '#e88f70', '#edc1a5', '#9dc5c8', '#e1e8c8','#bcd3bb', '#e88f70', '#edc1a5', '#9dc5c8', '#e1e8c8', '#7b7c68', '#e5b5b5', '#f0b489', '#928ea8', '#bda29a'];
 var k_illdis=['Slovenia','Austria','Canada','Czechia','Germany','Hungary','Italy','Singapore','covid_age_distribution']
 var k_units=['',' k',' km²',' per km²','%']
@@ -154,7 +155,7 @@ function barstack(cure, cureperday, death, deathperday, confirm, prediction, yea
         color:'#fff'
       }
     },
-    color: k_color,
+    color: k_color__,
     tooltip: {
       trigger: 'axis',
       axisPointer: {
@@ -172,10 +173,10 @@ function barstack(cure, cureperday, death, deathperday, confirm, prediction, yea
       },
       data: (function () {
         if (prediction.length == 0) {
-          return ['累计治愈', '累计死亡','现存确诊', '新增治愈', '新增死亡'];
+          return ['现存确诊','累计治愈', '累计死亡', '新增治愈', '新增死亡'];
         }
         else {
-          return ['累计治愈', '累计死亡','现存确诊', '新增治愈', '新增死亡', 'SEIR预测累计确诊']
+          return ['现存确诊','累计治愈', '累计死亡', '新增治愈', '新增死亡', 'SEIR预测累计确诊']
         }
       })(),
       textStyle: {
@@ -239,6 +240,12 @@ function barstack(cure, cureperday, death, deathperday, confirm, prediction, yea
     }],
     series: [
       {
+        name: '现存确诊',
+        type: 'bar',
+        stack: '累计人数',
+        data: confirm
+      },
+      {
         name: '累计治愈',
         type: 'bar',
         stack: '累计人数',
@@ -250,12 +257,7 @@ function barstack(cure, cureperday, death, deathperday, confirm, prediction, yea
         stack: '累计人数',
         data: death
       },
-      {
-        name: '现存确诊',
-        type: 'bar',
-        stack: '累计人数',
-        data: confirm
-      },
+      
       {
         name: '新增治愈',
         type: 'bar',
