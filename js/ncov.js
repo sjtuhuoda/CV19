@@ -11,6 +11,7 @@ k_deathperday=[];
 k_cure_name=[];
 k_cure=[];
 k_cureperday=[];
+k_confirm=[];
 k_pre=[];
 
 k_agediv=[];
@@ -131,7 +132,7 @@ function areapath(data, year = 2020, month = 0, day = 0, vol = 150) {
   myAreaPath.setOption(k_option_areapath);
 }
 /** Death, cure and prediction should be lists. Indices of month and day start from 0. Vol is the number of days.*/
-function barstack(cure, cureperday, death, deathperday, prediction, year = 2020, month = 0, day = 21, vol = 125) {
+function barstack(cure, cureperday, death, deathperday, confirm, prediction, year = 2020, month = 0, day = 21, vol = 125) {
   myBarStack = echarts.init(document.getElementById('barstack'));
   myBarStack.clear();
 
@@ -145,6 +146,14 @@ function barstack(cure, cureperday, death, deathperday, prediction, year = 2020,
   }
 
   k_option_barstack = {
+    title:{
+      show:false,
+      text:'疫情发展统计图',
+      left:'center',
+      textStyle:{
+        color:'#fff'
+      }
+    },
     color: k_color,
     tooltip: {
       trigger: 'axis',
@@ -156,16 +165,17 @@ function barstack(cure, cureperday, death, deathperday, prediction, year = 2020,
       selected: {
         '累计治愈': true,
         '累计死亡': true,
+        '累计确诊': true,
         '新增治愈': false,
         '新增死亡': false,
         'SEIR预测累计确诊': true
       },
       data: (function () {
         if (prediction.length == 0) {
-          return ['累计治愈', '累计死亡', '新增治愈', '新增死亡'];
+          return ['累计治愈', '累计死亡','累计确诊', '新增治愈', '新增死亡'];
         }
         else {
-          return ['累计治愈', '累计死亡', '新增治愈', '新增死亡', 'SEIR预测累计确诊']
+          return ['累计治愈', '累计死亡','累计确诊', '新增治愈', '新增死亡', 'SEIR预测累计确诊']
         }
       })(),
       textStyle: {
@@ -241,6 +251,12 @@ function barstack(cure, cureperday, death, deathperday, prediction, year = 2020,
         data: death
       },
       {
+        name: '累计确诊',
+        type: 'bar',
+        stack: '累计人数',
+        data: confirm
+      },
+      {
         name: '新增治愈',
         type: 'bar',
         yAxisIndex: 1,
@@ -284,10 +300,21 @@ function barstack(cure, cureperday, death, deathperday, prediction, year = 2020,
         k_option_barstack.legend.selected['累计死亡'] = false;
       }
     }
+    if(param.name=='累计确诊'){ 
+      if(param.selected['累计确诊']==true){
+        k_option_barstack.legend.selected['累计确诊'] = true;
+        k_option_barstack.legend.selected['新增治愈'] = false;
+        k_option_barstack.legend.selected['新增死亡'] = false;
+      }
+      else{
+        k_option_barstack.legend.selected['累计确诊'] = false;
+      }
+    }
     if(param.name=='新增治愈'){
       if(param.selected['新增治愈']==true){
         k_option_barstack.legend.selected['累计治愈'] = false;
         k_option_barstack.legend.selected['累计死亡'] = false;
+        k_option_barstack.legend.selected['累计确诊'] = false;
         k_option_barstack.legend.selected['SEIR预测累计确诊'] = false;
         k_option_barstack.legend.selected['新增治愈'] = true;
       }
@@ -299,6 +326,7 @@ function barstack(cure, cureperday, death, deathperday, prediction, year = 2020,
       if(param.selected['新增死亡']==true){
         k_option_barstack.legend.selected['累计治愈'] = false;
         k_option_barstack.legend.selected['累计死亡'] = false;
+        k_option_barstack.legend.selected['累计确诊'] = false;
         k_option_barstack.legend.selected['SEIR预测累计确诊'] = false;
         k_option_barstack.legend.selected['新增死亡'] = true;
       }
@@ -327,6 +355,16 @@ function agepie(agelist, countryage, illage) {
   myAgePie = echarts.init(document.getElementById('agepie'));
   myAgePie.clear();
   k_option_agepie = {
+    title:{
+      show:true,
+      x: '55%',
+      y:'top',
+      z:1,
+      text:'年龄分布',
+      textStyle:{
+        color:'#fff'
+      }
+    },
     color: k_color_,
     tooltip: {
       trigger: 'item',
@@ -449,6 +487,24 @@ function eventrich(da, ev, year = 2020, month = 0, day = 0, vol = 150) {
         show:false
       }
     },
+    dataZoom: [{
+      type: 'inside',
+      start: 0,
+      end: 100
+    }, {
+      yAxisIndex:0,
+      start: 0,
+      end: 100,
+      handleIcon: 'M10.7,11.9v-1.3H9.3v1.3c-4.9,0.3-8.8,4.4-8.8,9.4c0,5,3.9,9.1,8.8,9.4v1.3h1.3v-1.3c4.9-0.3,8.8-4.4,8.8-9.4C19.5,16.3,15.6,12.2,10.7,11.9z M13.3,24.4H6.7V23h6.6V24.4z M13.3,19.6H6.7v-1.4h6.6V19.6z',
+      handleSize: '80%',
+      handleStyle: {
+        color: '#fff',
+        shadowBlur: 3,
+        shadowColor: 'rgba(0, 0, 0, 0.6)',
+        shadowOffsetX: 2,
+        shadowOffsetY: 2
+      }
+    }],
     series: [{
       data: (function(){
         var li=[];
@@ -508,6 +564,7 @@ function card_drawAll(cname) {
   var cure=k_cure[card_index];
   var deathperday=k_deathperday[card_index];
   var cureperday=k_cureperday[card_index];
+  var confirm=k_confirm[card_index];
   var prediction=k_pre[card_index];
   
 
@@ -542,7 +599,7 @@ function card_drawAll(cname) {
   var event=k_event[card_index][1];
 
   areapath(areapathdata);
-  barstack(cure, cureperday, death, deathperday, prediction);
+  barstack(cure, cureperday, death, deathperday,confirm, prediction);
   agepie(agelist, countryage, illage);
   printtext(keys, content);
   eventrich(eventdate, event);
@@ -567,6 +624,10 @@ function readcsvcard(){
   })
   d3.csv('./data/epidemic/time_series_covid_19_recovered_everyday.csv',function(data){
     k_cureperday.push([0].concat(Object.values(data).slice(3)));
+  })
+  d3.csv('./data/epidemic/time_series_covid_19_confirm_now.csv',function(data){
+    //k_confirm.push(data['Country/Region']);
+    k_confirm.push(Object.values(data).slice(3));
   })
   d3.csv('./data/epidemic/SEIR_prediction.csv',function(data){
     k_pre.push(Object.values(data).slice(1));
