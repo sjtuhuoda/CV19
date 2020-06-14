@@ -161,6 +161,7 @@ function buildMap(totalData, time){
             loop: false,
             playInterval: 50,
             top: 'auto',
+            bottom: -8,
             currentIndex: timeRange.length-1,
             axisType: 'category',
             data: timeRange,
@@ -172,7 +173,8 @@ function buildMap(totalData, time){
                     borderColor: '#fff'
                 },
             label:{
-                color: '#FFFFCD'
+                color: '#FFFFCD',
+                fontSize:14,
             }
         },
         // title: {
@@ -230,6 +232,8 @@ function buildMap(totalData, time){
             //     {min: 100, max: 999, color: 'rgb(245,158,131)'},
             //     {min: 1, max: 99, color: 'rgb(253,235,207)'},
             // ],
+            itemHeight: 200,
+            itemWidth:30,
             min: 30000,
             max: 0,
             inRange:{
@@ -249,7 +253,8 @@ function buildMap(totalData, time){
             // text: ['多','少'],           // 文本，默认为数值文本
             calculable: true,
             textStyle:{
-                color: '#FFFFCD'
+                color: '#FFFFCD',
+                fontSize: 16,
             }
         },
         // toolbox: {
@@ -269,7 +274,9 @@ function buildMap(totalData, time){
             roam:true,
             nameProperty: 'NAME',
             
-            zoom:1,
+            zoom:1.1,
+            top: "13%",    
+            left: "12%",
             //selectedMode: 'single',
             map: 'world',
             itemStyle:{

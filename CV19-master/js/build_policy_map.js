@@ -300,6 +300,7 @@ function buildMap(totalData, time, countryPolicy, countryOrder){
             loop: false,
             playInterval: 50,
             top: 'auto',
+            bottom: 20,
             left: '5%',
             right: '45%',
             currentIndex: timeRange.length-1,
@@ -313,7 +314,8 @@ function buildMap(totalData, time, countryPolicy, countryOrder){
                     borderColor: '#fff'
                 },
             label:{
-                color: '#FFFFCD'
+                color: '#FFFFCD',
+                fontSize:14,
             }
         },
         // title: {
@@ -370,13 +372,16 @@ function buildMap(totalData, time, countryPolicy, countryOrder){
             calculable: true,
             max:100,
             min:0,
+            itemHeight: 30,
+            itemWidth:21,
             splitNumber:5,
             inRange:{
                 colorAlpha:0.9,
                 color: ['#ffed76', "#ff680f"]
             },
             textStyle:{
-                color: '#FFFFCD'
+                color: '#FFFFCD',
+                fontSize: 17,
             }
         },
         // toolbox: {
@@ -403,7 +408,7 @@ function buildMap(totalData, time, countryPolicy, countryOrder){
             data: countryOrder,
             axisLabel:{
                 color: '#FFFFCD',
-                fontSize:10,
+                fontSize:14,
             }
         },
         xAxis: {
@@ -412,7 +417,7 @@ function buildMap(totalData, time, countryPolicy, countryOrder){
             type: 'time',
             axisLabel:{
                 color: '#FFFFCD',
-                fontSize:10,
+                fontSize:14,
             },
             min: '2020-01-01',
             max: '2020-05-21',
@@ -434,17 +439,18 @@ function buildMap(totalData, time, countryPolicy, countryOrder){
             }
         ],
         grid: {
-            bottom: "60%",
-            left: '65%',
+            top: '15%',
+            bottom: "55%",
+            left: '67%',
             right: '7%'
         },
         geo:[{
             roam:true,
             nameProperty: 'NAME',
             
-            zoom:0.8,
-            left: '-4%',
-            top: "13%",        
+            zoom:0.9,
+            left: '-7%',
+            top: "12%",        
             //selectedMode: 'single',
             map: 'world',
             itemStyle:{
