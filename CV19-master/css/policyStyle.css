@@ -1,0 +1,78 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+body, html {
+    font-family:'Times New Roman', 'trebuchet MS', 'Lucida sans', Arial;
+    font-size: 18px;
+    width: 100%;
+    height: 100%;
+}
+
+#map{
+    position: absolute;
+    top: 50px;
+    width: 100%;
+    height: 90%;
+    border-width: 2px;
+}
+
+body {
+    background-color: #333;
+    background-image: linear-gradient(to bottom right, #444, #222 , #333);
+}
+
+ul.guide {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    height: 5%;
+    background-color: #444;
+    background-image: linear-gradient(to bottom, #666 , #444);
+}
+
+li a {
+    display: block;
+    color: #F2E2D2;
+    text-align: center;
+    padding: 13px 40px;
+    text-decoration: none;
+}
+
+li a:hover {
+    background-color: #111;
+}
+
+li a.active {
+    background-color:#ca5116;
+    color: #F2E2D2;
+}
+
+label{
+    color: #F2E2D2;
+}
+
+#legend {
+    position: relative;
+    top: 40px;
+    left: 100px;
+    width: 45%;
+    
+}
+
+#hist {
+     position: absolute;
+     top: 50%;
+     left: 66%;
+     width: 28%;
+     height: 40%;
+ }
+
+#title {
+     position: absolute;
+     top: 50%;
+     left: 66%;
+     width: 28%;
+     height: 5%;
+ }

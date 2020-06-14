@@ -1,0 +1,51 @@
+#map{
+    position: absolute;
+    top: 50px;
+    width: 100%;
+    height: 90%;
+    border-width: 2px;
+}
+
+body {
+    background-color: #333;
+    background-image: linear-gradient(to bottom right, #444, #222 , #333);
+}
+
+ul.guide {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    height: 5%;
+    background-color: #444;
+    background-image: linear-gradient(to bottom, #666 , #444);
+}
+
+
+li a {
+    display: block;
+    color: #F2E2D2;
+    text-align: center;
+    padding: 13px 40px;
+    text-decoration: none;
+}
+
+li a:hover {
+    background-color: #000000;
+}
+
+li a.active {
+    background-color:#ca5116;
+    color: #F2E2D2;
+}
+
+label{
+    color: #F2E2D2;
+}
+
+#legend {
+    position: relative;
+    top: 20px;
+    left: 150px;
+    width: 50%;
+}

@@ -1,0 +1,96 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>hotel</title>
+    <script type="text/javascript" src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.4.0.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-csv/1.0.3/jquery.csv.min.js"></script>
+    <script type="text/javascript" src="https://assets.pyecharts.org/assets/echarts.min.js"></script>
+    <script type="text/javascript" src="https://assets.pyecharts.org/assets/maps/world.js"></script>
+    <script src="https://d3js.org/d3.v5.min.js"></script>
+
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts/dist/echarts.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts-gl/dist/echarts-gl.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts-stat/dist/ecStat.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts/dist/extension/dataTool.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts/map/js/china.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts/map/js/world.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts/dist/extension/bmap.min.js"></script>
+
+    <link href="http://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.bootcdn.net/ajax/libs/pretty-checkbox/3.0.3/pretty-checkbox.min.css" rel="stylesheet">
+    <link href="css/mapStyle.css" rel="stylesheet">
+    <link href="css/cardStyle.css"rel="stylesheet">
+
+</head>
+
+<body style="background-color:#333">
+    <ul class='guide'>
+        <li style="float:left"><a href="COVID19.html" class="active">疫情分析</a></li>
+        <li style="float:left"><a href="COVID19policy.html">政策分析</a></li>
+        <li style="float:right"><a href="help.html">帮助</a></li>
+    </ul>
+
+    <div id="legend">
+
+        <div class="pretty p-default p-curve">
+            <input type="radio" name="color" value="confirmed" checked/>
+            <div class="state p-warning-o">
+                <label>累计确诊</label>
+            </div>
+        </div>
+
+        <div class="pretty p-default p-curve">
+            <input type="radio" name="color" value="recovered" />
+            <div class="state p-warning-o">
+                <label>累计治愈</label>
+            </div>
+        </div>
+
+        <div class="pretty p-default p-curve">
+            <input type="radio" name="color" value="death" />
+            <div class="state p-warning-o">
+                <label>累计死亡</label>
+            </div>
+        </div>
+        <div class="pretty p-default p-curve">
+            <input type="radio" name="color" value="cur_confirmed"/>
+            <div class="state p-warning-o">
+                <label>现存确诊</label>
+            </div>
+        </div>
+
+    </div>
+
+    <div id="map"></div>
+
+    <div id="card", align="center" style="display: none;background-color: #333;">
+
+        <div style="float: left;width: 70%;">
+            <div id="barstack" style="width: 1000px; height: 320px;float: left;padding: 30px;"></div>
+            <div id="agepie" style="width: 450px; height: 280px;float: left;padding: 20px 0px 20px 20px;"></div>
+            <div id="areapath" style="width: 500px; height: 280px;float: left;padding: 20px 20px 20px 0px;"></div>
+        </div>
+        <div style="float: left; padding: 40px 0px 0px 0px;">
+            <div id="cardtext" style="color: black;text-align: left;height: 150px;"></div>
+            <div id="eventrich" style="width: 250px; height: 480px;"></div>
+        </div>
+
+        <div id="close" style="float: right;width: 5%;">
+            <button class="btn" id="closebutton" onclick="my_function()">×</button>
+        </div>
+
+        <div id="ul"></div>
+        <div id="ur"></div>
+        <div id="bl"></div>
+        <div id="br"></div>
+
+    </div>
+
+
+
+</body>
+<script type="text/javascript" src="js/build_epidemic_map.js"></script>
+<script type="text/javascript" src="js/ncov.js"></script>
+</html>
+

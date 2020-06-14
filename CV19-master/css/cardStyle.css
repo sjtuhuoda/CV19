@@ -1,0 +1,134 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+body, html {
+    font-family:'Times New Roman', 'trebuchet MS', 'Lucida sans', Arial;
+    font-size: 18px;
+    width: 100%;
+    height: 100%;
+}
+p{
+    color: rgb(255, 255, 255);
+    font-family: Arial, Helvetica, sans-serif;
+}
+.webs polygon {
+    fill: gray;
+    fill-opacity: 0.5;
+    stroke: black;
+    stroke-dasharray: 10 5;
+}
+
+.lines line {
+    fill: black;
+    fill-opacity: 0.5;
+    stroke: black;
+    stroke-dasharray: 10 5;
+}
+
+.areas polygon {
+    fill-opacity: 0.5;
+    stroke-width: 3;
+}
+
+.areas circle {
+    fill: white;
+    stroke-width: 3;
+}
+
+div {
+    margin: 0;
+    padding: 0;
+    border: 0;
+}
+form{
+    font-family: Arial, Helvetica, sans-serif;
+    color: #fff;
+    float: left;
+}
+#codelist table,tbody,tr,td{
+    margin: auto;
+    border: 10px none #333;
+    font-family: Arial, Helvetica, sans-serif;
+    color: #fff;
+    padding: 10px;
+}
+
+#card {
+    position: absolute;
+    left: 15%;
+    top: 20%;
+    width: 70%;
+    height: 65%;
+    z-index: 1;
+    /*border: 5px solid;*/
+    /*border-color: white;*/
+    background-image: linear-gradient(to bottom, #333, #222);
+}
+
+#ul {
+    position: absolute;
+    left: 0%;
+    top: 0%;
+    width: 10%;
+    height: 10%;
+    border: 5px solid;
+    border-width: 5px 0px 0px 5px;/* top, right, bottom and left */
+    border-color: white;
+    z-index: 10;
+}
+
+/*#ur {*/
+/*    position: absolute;*/
+/*    left: 90%;*/
+/*    top: 0%;*/
+/*    width: 10%;*/
+/*    height: 10%;*/
+/*    border: 5px solid;*/
+/*    border-width: 5px 5px 0px 0px;!* top, right, bottom and left *!*/
+/*    border-color: white;*/
+/*    z-index: 10;*/
+/*}*/
+
+#bl {
+    position: absolute;
+    left: 0%;
+    top: 90%;
+    width: 10%;
+    height: 10%;
+    border: 5px solid;
+    border-width: 0px 0px 5px 5px;/* top, right, bottom and left */
+    border-color: white;
+    z-index: 10;
+}
+
+#br {
+    position: absolute;
+    left: 90%;
+    top: 90%;
+    width: 10%;
+    height: 10%;
+    border: 5px solid;
+    border-width: 0px 5px 5px 0px;/* top, right, bottom and left */
+    border-color: white;
+    z-index: 10;
+}
+
+
+#cardtext table,tbody,tr,td{
+    padding: 5px;
+}
+#closebutton {
+    position: absolute;
+    left: 90%;
+    top: 0%;
+    width: 10%;
+    height: 10%;
+    border: 5px solid;
+    border-width: 5px 5px 0px 0px;/* top, right, bottom and left */
+    border-color: white;
+    z-index: 10;
+    font-size: xx-large;
+    color: white;
+    background-color: Transparent;
+}
