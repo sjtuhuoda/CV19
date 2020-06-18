@@ -66,8 +66,8 @@ function areapath(data, year = 2020, month = 0, day = 0, vol = 150) {
       }
 
     },
-    
-    
+
+
     xAxis: {
       type: 'category',
       boundaryGap: false,
@@ -111,11 +111,11 @@ function areapath(data, year = 2020, month = 0, day = 0, vol = 150) {
         type: 'line',
         smooth: true,
         symbol: 'none',
-        
+
         sampling: 'average',
         itemStyle: {
           color: 'rgb(255, 70, 131)'
-          
+
         },
         areaStyle: {
           color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
@@ -221,23 +221,36 @@ function barstack(cure, cureperday, death, deathperday, confirm, prediction, yea
         }
       }
     ],
-    dataZoom: [{
-      type: 'inside',
-      start: 0,
-      end: 100
-    }, {
-      start: 0,
-      end: 10,
-      handleIcon: 'M10.7,11.9v-1.3H9.3v1.3c-4.9,0.3-8.8,4.4-8.8,9.4c0,5,3.9,9.1,8.8,9.4v1.3h1.3v-1.3c4.9-0.3,8.8-4.4,8.8-9.4C19.5,16.3,15.6,12.2,10.7,11.9z M13.3,24.4H6.7V23h6.6V24.4z M13.3,19.6H6.7v-1.4h6.6V19.6z',
-      handleSize: '80%',
-      handleStyle: {
-        color: '#fff',
-        shadowBlur: 3,
-        shadowColor: 'rgba(0, 0, 0, 0.6)',
-        shadowOffsetX: 2,
-        shadowOffsetY: 2
+    dataZoom: [
+      {
+        type: 'slider',
+        show: true,
+        xAxisIndex: [0],
+        top: '90%',
+        start: 0,
+        end: 100
+      },
+      {
+        type: 'slider',
+        show: true,
+        yAxisIndex: [0],
+        left: '0%',
+        start: 0,
+        end: 5
+      },
+      {
+        type: 'inside',
+        xAxisIndex: [0],
+        start: 0,
+        end: 100
+      },
+      {
+        type: 'inside',
+        yAxisIndex: [0],
+        start: 0,
+        end: 10
       }
-    }],
+    ],
     series: [
       {
         name: '现存确诊',
@@ -257,7 +270,7 @@ function barstack(cure, cureperday, death, deathperday, confirm, prediction, yea
         stack: '累计人数',
         data: death
       },
-      
+
       {
         name: '新增治愈',
         type: 'bar',
@@ -292,7 +305,7 @@ function barstack(cure, cureperday, death, deathperday, confirm, prediction, yea
         k_option_barstack.legend.selected['累计治愈'] = false;
       }
     }
-    if(param.name=='累计死亡'){ 
+    if(param.name=='累计死亡'){
       if(param.selected['累计死亡']==true){
         k_option_barstack.legend.selected['累计死亡'] = true;
         k_option_barstack.legend.selected['新增治愈'] = false;
@@ -302,7 +315,7 @@ function barstack(cure, cureperday, death, deathperday, confirm, prediction, yea
         k_option_barstack.legend.selected['累计死亡'] = false;
       }
     }
-    if(param.name=='现存确诊'){ 
+    if(param.name=='现存确诊'){
       if(param.selected['现存确诊']==true){
         k_option_barstack.legend.selected['现存确诊'] = true;
         k_option_barstack.legend.selected['新增治愈'] = false;
@@ -474,39 +487,30 @@ function eventrich(da, ev, year = 2020, month = 0, day = 0, vol = 150) {
   }
   //console.log(d);
   k_option_eventrich = {
+    title: {
+      left: "90%",
+      top: "20%",
+      text: '政\n策\n时\n间\n轴',
+      textStyle: {
+        color: '#fff'
+      }
+
+    },
     xAxis: {
+      show : false,
       type: 'category',
       data: ['0','1','2','3','4','5']
 
     },
     yAxis: {
+      show : false,
       inverse: true,
       type: 'time',
-      
-      
       data: d,
       splitLine:{
         show:false
       }
     },
-    dataZoom: [{
-      type: 'inside',
-      start: 0,
-      end: 100
-    }, {
-      yAxisIndex:0,
-      start: 0,
-      end: 100,
-      handleIcon: 'M10.7,11.9v-1.3H9.3v1.3c-4.9,0.3-8.8,4.4-8.8,9.4c0,5,3.9,9.1,8.8,9.4v1.3h1.3v-1.3c4.9-0.3,8.8-4.4,8.8-9.4C19.5,16.3,15.6,12.2,10.7,11.9z M13.3,24.4H6.7V23h6.6V24.4z M13.3,19.6H6.7v-1.4h6.6V19.6z',
-      handleSize: '80%',
-      handleStyle: {
-        color: '#fff',
-        shadowBlur: 3,
-        shadowColor: 'rgba(0, 0, 0, 0.6)',
-        shadowOffsetX: 2,
-        shadowOffsetY: 2
-      }
-    }],
     series: [{
       data: (function(){
         var li=[];
@@ -520,7 +524,7 @@ function eventrich(da, ev, year = 2020, month = 0, day = 0, vol = 150) {
       lineStyle:{
         width:4
       }
-      
+
     }],
     tooltip:{
       formatter:function(param){
@@ -568,7 +572,7 @@ function card_drawAll(cname) {
   var cureperday=k_cureperday[card_index];
   var confirm=k_confirm[card_index];
   var prediction=k_pre[card_index];
-  
+
 
   // for agepie
   //var agelist = ['0~20', '20~35', '35~50', '50~60', '60以上'];
@@ -590,7 +594,7 @@ function card_drawAll(cname) {
   var keys=k_text_key;
   var content=k_text_value[card_index];
 
-  // for eventrich 
+  // for eventrich
   /*
   var eventdate = ['2019-12-4', '2019-12-25', '2020-2-16'];
   var event = ['All work and no play makes Jack a dull boy.All work and no play makes Jack a dull boy.',
@@ -606,45 +610,83 @@ function card_drawAll(cname) {
   printtext(keys, content);
   eventrich(eventdate, event);
 }
-function readcsvcard(){
-  // for areapath
-  d3.csv('./data/epidemic/time_series_stringency.csv',function(data){
-    k_areapath.push(Object.values(data).slice(1))
-  }) 
 
-  // for barstack
-  d3.csv('./data/epidemic/time_series_covid_19_deaths.csv',function(data){
-    k_death_name.push(data['Country/Region']);
-    k_death.push(Object.values(data).slice(3));
-  })
-  d3.csv('./data/epidemic/time_series_covid_19_deaths_everyday.csv',function(data){
-    k_deathperday.push([0].concat(Object.values(data).slice(3)));
-  })
-  d3.csv('./data/epidemic/time_series_covid_19_recovered.csv',function(data){
-    k_cure_name.push(data['Country/Region']);
-    k_cure.push(Object.values(data).slice(3));
-  })
-  d3.csv('./data/epidemic/time_series_covid_19_recovered_everyday.csv',function(data){
-    k_cureperday.push([0].concat(Object.values(data).slice(3)));
-  })
-  d3.csv('./data/epidemic/time_series_covid_19_confirm_now.csv',function(data){
+function readfile(filename, mainfunc) {
+  var csvdata;
+  var url = "http://127.0.0.1:5000/" + filename;
+  console.log(url)
+  $.ajax({
+    "type" : "get",
+    "url" : url,
+    dataType:'jsonp',
+    jsonp: "invoker", //指定参数名称
+    jsonpCallback: filename, //指定回调函数
+    "success" : function(data) {
+      // 参数为json类型的对象
+      // console.log(data[filename]);
+      csvdata = data[filename];
+      for (var i in csvdata) {
+        mainfunc(csvdata[i]);
+      }
+    },
+    "error" : function() {
+      alert("communication failed");
+    }
+  });
+}
+
+function readcsvcard(){
+
+  // for areapath
+  readfile("time_series_stringency", function (csvdata) {
+      k_areapath.push(Object.values(csvdata).slice(1));
+  });
+
+    // for barstack
+  readfile("time_series_covid_19_deaths", function (csvdata) {
+    k_death_name.push(csvdata['Country/Region']);
+    k_death.push(Object.values(csvdata).slice(3));
+  });
+
+
+  readfile("time_series_covid_19_deaths_everyday", function (csvdata) {
+    k_deathperday.push([0].concat(Object.values(csvdata).slice(3)));
+  });
+
+
+  readfile("time_series_covid_19_recovered", function (csvdata) {
+    k_cure_name.push(csvdata['Country/Region']);
+    k_cure.push(Object.values(csvdata).slice(3));
+  });
+
+
+  readfile("time_series_covid_19_recovered_everyday", function (csvdata) {
+    k_cureperday.push([0].concat(Object.values(csvdata).slice(3)));
+  });
+
+  readfile("time_series_covid_19_confirm_now", function (csvdata) {
     //k_confirm.push(data['Country/Region']);
-    k_confirm.push(Object.values(data).slice(3));
-  })
-  d3.csv('./data/epidemic/SEIR_prediction.csv',function(data){
-    k_pre.push(Object.values(data).slice(1));
-  })
+    k_confirm.push(Object.values(csvdata).slice(3));
+  });
+
+  readfile("SEIR_prediction", function (csvdata) {
+    k_pre.push(Object.values(csvdata).slice(1));
+  });
+
 
   // for agepie
   k_agediv=['0~4','5~14','15~24','25~64','65+']
-  d3.csv('./data/epidemic/age_distribution.csv',function(data){
-    //console.log(Object.values(data).slice(1));
-    k_agedis.push(Object.values(data).slice(1));
+  readfile("age_distribution", function (csvdata) {
+    //console.log(Object.values(csvdata).slice(1));
+    k_agedis.push(Object.values(csvdata).slice(1));
   })
+
+
+
   for(var i=0;i<9;++i){
-    d3.csv('./data/epidemic/covid_age_distribution/'+k_illdis[i]+'.csv',function(data){
-      var ori=Object.values(data);
-      var oriind=Object.keys(data);
+    readfile('covid_age_distribution'+i.toString(), function (csvdata) {
+      var ori=Object.values(csvdata);
+      var oriind=Object.keys(csvdata);
       if(ori[0]=='')return;
       k_ill_countryname.push(ori[0]);
       //console.log(ori[0]);
@@ -653,20 +695,21 @@ function readcsvcard(){
       k_ill_divdis.push([oriind,ori]);
     })
   }
-  
+
 
   // for text
-  k_text_key=['Country/Region','Population','Area','Density','Population GrowthRate']
-  d3.csv('./data/epidemic/area_and_pop.csv',function(data){
-    k_text_value.push(Object.values(data).slice(0,5));
-  })
+  k_text_key=['Country/Region','Population','Area','Density','Population GrowthRate'];
+  readfile("area_and_pop", function (csvdata) {
+    k_text_value.push(Object.values(csvdata).slice(0,5));
+  });
+
 
   // for eventrich
-  d3.csv('./data/epidemic/time_series_event.csv',function(data){
+  readfile("time_series_event", function (csvdata) {
     var dateofthiscountry=[];
     var eventofthiscountry=[];
-    var ori=Object.values(data).slice(1);
-    var oriind=Object.keys(data).slice(1);
+    var ori=Object.values(csvdata).slice(1);
+    var oriind=Object.keys(csvdata).slice(1);
     for(var i=0;i<ori.length;++i){
       if(ori[i]=='')continue;
       else{
@@ -674,9 +717,13 @@ function readcsvcard(){
         eventofthiscountry.push(ori[i]);
       }
     }
-    //console.log([dateofthiscountry,eventofthiscountry])
+    // console.log([dateof/thiscountry,eventofthiscountry])
     k_event.push([dateofthiscountry,eventofthiscountry]);
-  })
+  // console.log(k_event);
+
+  });
+
+
 }
 
 function k_begin(){

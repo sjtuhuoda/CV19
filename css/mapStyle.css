@@ -6,12 +6,19 @@
     border-width: 2px;
 }
 
+body {
+    background-color: #333;
+    background-image: linear-gradient(to bottom right, #444, #222 , #333);
+}
+
 ul.guide {
     list-style-type: none;
     margin: 0;
     padding: 0;
     overflow: hidden;
-    background-color: #333;
+    height: 5%;
+    background-color: #444;
+    background-image: linear-gradient(to bottom, #666 , #444);
 }
 
 
@@ -38,7 +45,7 @@ label{
 
 #legend {
     position: relative;
-    top: 20px;
-    left: 150px;
+    top: 30px;
+    left: 180px;
     width: 50%;
 }

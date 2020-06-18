@@ -1,17 +1,29 @@
 var dataType = 'strick_idx';
 var dataName = {'strick_idx': '政策严格程度', 'shoool_close': '学校关闭', 'campaigns':'公共宣传', 'workplace_close': '工作场所', 'public_events':'公共活动', 'gathering':'集会限制', 'public_stransport':'公共交通', 'stay_at_home':'居家隔离', 'internal_move':'国内旅行', "international_traval":'国际旅行', 'testing_policy':'检测政策', 'contract_trace':'接触跟踪'};
-var dataSource = {'strick_idx': 'data/policy/covid-stringency-index.csv', 
-                'school_close': 'data/policy/school-closures-covid.csv',
-                'campagins': 'data/policy/public-campaigns-covid.csv',
-                'workplace_close': 'data/policy/workplace-closures-covid.csv',
-                'public_events':'data/policy/public-events-covid.csv',
-                'gathering':'data/policy/public-gathering-rules-covid.csv',
-                'public_stransport':'data/policy/public-transport-covid.csv',
-                'stay_at_home':'data/policy/stay-at-home-covid.csv',
-                'internal_move':'data/policy/internal-movement-covid.csv',
-                'international_traval':'data/policy/international-travel-covid.csv',
-                'testing_policy':'data/policy/covid-19-testing-policy.csv',
-                'contract_trace':'data/policy/covid-contact-tracing.csv'};
+// var dataSource = {'strick_idx': 'data/policy/covid_stringency_index.csv',
+//                 'school_close': 'data/policy/school_closures_covid.csv',
+//                 'campagins': 'data/policy/public_campaigns_covid.csv',
+//                 'workplace_close': 'data/policy/workplace_closures_covid.csv',
+//                 'public_events':'data/policy/public_events_covid.csv',
+//                 'gathering':'data/policy/public_gathering_rules_covid.csv',
+//                 'public_stransport':'data/policy/public_transport_covid.csv',
+//                 'stay_at_home':'data/policy/stay_at_home_covid.csv',
+//                 'internal_move':'data/policy/internal_movement_covid.csv',
+//                 'international_traval':'data/policy/international_travel_covid.csv',
+//                 'testing_policy':'data/policy/covid_19_testing_policy.csv',
+//                 'contract_trace':'data/policy/covid_contact_tracing.csv'};
+var dataSource = {'strick_idx': 'covid_stringency_index',
+    'school_close': 'school_closures_covid',
+    'campagins': 'public_campaigns_covid',
+    'workplace_close': 'workplace_closures_covid',
+    'public_events':'public_events_covid',
+    'gathering':'public_gathering_rules_covid',
+    'public_stransport':'public_transport_covid',
+    'stay_at_home':'stay_at_home_covid',
+    'internal_move':'internal_movement_covid',
+    'international_traval':'international_travel_covid',
+    'testing_policy':'covid_19_testing_policy',
+    'contract_trace':'covid_contact_tracing'};
 var monthMatch = {"Jan":'01', "Feb":'02', "Mar":'03', "Apr":'04', "May":'05', "Jun":'06', "Jul":'07', "Aug":'08', "Sep":'09', "Oct":'10', "Nov":'11', "Dec":'12'};
 var symbolList = ['pin', 'circle', 'rect', 'triangle', 'diamond','roundRect', 'arrow']
 var dataPieces = {'strick_idx': [
@@ -87,13 +99,36 @@ var dataPieces = {'strick_idx': [
 
 var compareList = [];
 
+function readcsv(filename, mainfunc) {
+    var csvdata;
+    var url = "http://127.0.0.1:5000/" + filename;
+    console.log(url)
+    $.ajax({
+        "type" : "get",
+        "url" : url,
+        dataType:'jsonp',
+        jsonp: "invoker", //指定参数名称
+        jsonpCallback: filename, //指定回调函数
+        "success" : function(data) {
+            // 参数为json类型的对象
+            // console.log(data[filename]);
+            csvdata = data[filename];
+            mainfunc(csvdata);
+        },
+        "error" : function() {
+            alert("communication failed");
+        }
+    });
+}
+
 function readData(){
     $(document).ready(function(){
        // console.log(dataType, dataSource[dataType])
         var totalData = [], time = [], timeIdxMap = {}, countryPolicy = [];
-        $.get(dataSource[dataType],function(theData){
-            //console.log(theData)
-            var dataList = $.csv.toObjects(theData);
+        readcsv(dataSource[dataType], function(dataList) {
+        // $.get(dataSource[dataType],function(theData){
+        //     console.log(theData)
+            // var dataList = $.csv.toObjects(theData);
             
             Keys = Object.keys(dataList[0]);
             var country = Keys[0], date = Keys[2], valName = Keys[3]
@@ -285,7 +320,7 @@ function buildMap(totalData, time, countryPolicy, countryOrder){
         mapData.data = totalData[i].data;
         scatterData.data = countryPolicy;
         seriesData.push({
-            series: [mapData, scatterData ,template_scatter,]
+            series: [mapData, scatterData ,/*template_scatter,*/]
         })
     }
     //console.log(seriesData[seriesData.length-1])
@@ -300,13 +335,22 @@ function buildMap(totalData, time, countryPolicy, countryOrder){
             loop: false,
             playInterval: 50,
             top: 'auto',
+            bottom: 20,
             left: '5%',
             right: '45%',
             currentIndex: timeRange.length-1,
             axisType: 'category',
             data: timeRange,
+            controlStyle:
+                {
+                    itemSize: 40,
+                    color: '#fff',
+                    borderWidth: 3,
+                    borderColor: '#fff'
+                },
             label:{
-                color: '#FFFFCD'
+                color: '#FFFFCD',
+                fontSize:14,
             }
         },
         // title: {
@@ -363,13 +407,16 @@ function buildMap(totalData, time, countryPolicy, countryOrder){
             calculable: true,
             max:100,
             min:0,
+            itemHeight: 30,
+            itemWidth:21,
             splitNumber:5,
             inRange:{
                 colorAlpha:0.9,
                 color: ['#ffed76', "#ff680f"]
             },
             textStyle:{
-                color: '#FFFFCD'
+                color: '#FFFFCD',
+                fontSize: 17,
             }
         },
         // toolbox: {
@@ -396,7 +443,7 @@ function buildMap(totalData, time, countryPolicy, countryOrder){
             data: countryOrder,
             axisLabel:{
                 color: '#FFFFCD',
-                fontSize:10,
+                fontSize:14,
             }
         },
         xAxis: {
@@ -405,8 +452,10 @@ function buildMap(totalData, time, countryPolicy, countryOrder){
             type: 'time',
             axisLabel:{
                 color: '#FFFFCD',
-                fontSize:10,
-            }
+                fontSize:14,
+            },
+            min: '2020-01-01',
+            max: '2020-05-21',
         },
         dataZoom: [
             {
@@ -425,17 +474,18 @@ function buildMap(totalData, time, countryPolicy, countryOrder){
             }
         ],
         grid: {
-            bottom: "60%",
-            left: '65%',
+            top: '15%',
+            bottom: "55%",
+            left: '67%',
             right: '7%'
         },
         geo:[{
             roam:true,
             nameProperty: 'NAME',
             
-            zoom:0.8,
-            left: '-6%',
-            top: "13%",        
+            zoom:0.9,
+            left: '-7%',
+            top: "12%",        
             //selectedMode: 'single',
             map: 'world',
             itemStyle:{
@@ -465,13 +515,25 @@ function buildMap(totalData, time, countryPolicy, countryOrder){
 mapChart.on('click', function(params){
     //console.log(params)
     if (params.componentSubType == "map"){
-        var idx = compareList.indexOf(params.name);
+
+        new_element=document.createElement("script");
+        new_element.setAttribute("type","text/javascript");
+        new_element.setAttribute("src","js/epidemic_in_policy.js");// 在这里引入了a.js
+        document.body.appendChild(new_element);
+
+        this_country_name = params.name;
+        if(this_country_name == "United States") {
+            this_country_name = "US";
+        }
+
+        var idx = compareList.indexOf(this_country_name);
         if (idx < 0){
-            compareList.push(params.name);
+            compareList.push(this_country_name);
         }
         else{
             compareList.splice(idx, 1)
         }
+        card_drawAll(compareList);
         console.log(compareList)
     }
 })

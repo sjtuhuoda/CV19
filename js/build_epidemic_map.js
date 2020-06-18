@@ -1,19 +1,45 @@
 var dataType = 'confirmed';
 var dataName = {'confirmed': '累计确诊', 'death': '累计死亡', 'recovered': '累计治愈', 'cur_confirmed': '现存确诊'};
-var dataSource = {'confirmed': 'data/epidemic/time_series_covid_19_confirmed.csv', 
-                  'death': 'data/epidemic/time_series_covid_19_deaths.csv',
-                  'recovered': 'data/epidemic/time_series_covid_19_recovered.csv'};
+// var dataSource = {'confirmed': 'data/epidemic/time_series_covid_19_confirmed.csv',
+//                   'death': 'data/epidemic/time_series_covid_19_deaths.csv',
+//                   'recovered': 'data/epidemic/time_series_covid_19_recovered.csv'};
+var dataSource = {'confirmed': 'time_series_covid_19_confirmed',
+    'death': 'time_series_covid_19_deaths',
+    'recovered': 'time_series_covid_19_recovered'};
 var compareList = [];
 
+function readcsv(filename, mainfunc) {
+    var csvdata;
+    var url = "http://127.0.0.1:5000/" + filename;
+    console.log(url)
+    $.ajax({
+        "type" : "get",
+        "url" : url,
+        dataType:'jsonp',
+        jsonp: "invoker", //指定参数名称
+        jsonpCallback: filename, //指定回调函数
+        "success" : function(data) {
+            // 参数为json类型的对象
+            // console.log(data[filename]);
+            csvdata = data[filename];
+            mainfunc(csvdata);
+        },
+        "error" : function() {
+            alert("communication failed");
+        }
+    });
+}
 function readData(){
     $(document).ready(function(){
-    
+
         var totalData = [], time = [];
         if (dataType == 'cur_confirmed'){
             var typeNames = ['confirmed', 'death', 'recovered']
             typeNames.forEach(function(typeName, idx){
-                $.get(dataSource[typeName],function(theData){
-                    var dataList = $.csv.toObjects(theData);
+                readcsv(dataSource[typeName], function(dataList) {
+                // $.get(dataSource[typeName],function(theData){
+                //     var dataList = $.csv.toObjects(theData);
+                    console.log(dataList);
                     if (idx == 0){
                         Keys = Object.keys(dataList[0]);
                         time = Keys.slice(3, Keys.length);
@@ -40,8 +66,10 @@ function readData(){
 
         }
         else{
-            $.get(dataSource[dataType],function(theData){
-                var dataList = $.csv.toObjects(theData);
+            readcsv(dataSource[dataType], function(dataList) {
+            // $.get(dataSource[dataType],function(theData){
+            //     var dataList = $.csv.toObjects(theData);
+                console.log(dataList);
                 Keys = Object.keys(dataList[0]);
                 time = Keys.slice(3, Keys.length);
                 for (var i = 0; i < time.length; i++){
@@ -56,9 +84,10 @@ function readData(){
                 buildMap(totalData, time);
             })
         }
-        
+
     })
 }
+
 
 readData();
 
@@ -161,11 +190,20 @@ function buildMap(totalData, time){
             loop: false,
             playInterval: 50,
             top: 'auto',
+            bottom: -8,
             currentIndex: timeRange.length-1,
             axisType: 'category',
             data: timeRange,
+            controlStyle:
+                {
+                    itemSize: 40,
+                    color: '#fff',
+                    borderWidth: 3,
+                    borderColor: '#fff'
+                },
             label:{
-                color: '#FFFFCD'
+                color: '#FFFFCD',
+                fontSize:14,
             }
         },
         // title: {
@@ -223,6 +261,8 @@ function buildMap(totalData, time){
             //     {min: 100, max: 999, color: 'rgb(245,158,131)'},
             //     {min: 1, max: 99, color: 'rgb(253,235,207)'},
             // ],
+            itemHeight: 200,
+            itemWidth:30,
             min: 30000,
             max: 0,
             inRange:{
@@ -242,7 +282,8 @@ function buildMap(totalData, time){
             // text: ['多','少'],           // 文本，默认为数值文本
             calculable: true,
             textStyle:{
-                color: '#FFFFCD'
+                color: '#FFFFCD',
+                fontSize: 16,
             }
         },
         // toolbox: {
@@ -262,7 +303,9 @@ function buildMap(totalData, time){
             roam:true,
             nameProperty: 'NAME',
             
-            zoom:1,
+            zoom:1.1,
+            top: "13%",    
+            left: "12%",
             //selectedMode: 'single',
             map: 'world',
             itemStyle:{
